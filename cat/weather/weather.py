@@ -7,8 +7,12 @@ from pprint import pprint
 
 def main():
     keyy = os.environ.get('WEATHER_KEY')
-    url = 'https://api.openweathermap.org/data/2.5/weather?q=minneapolis,us&units=imperial&appid=' + key()
-    data = requests.get(url).json()
+    query = {'q':'minneapolis,mn,us', 'units': 'imperial', 'appid':keyy}
+
+    url = 'https://api.openweathermap.org/data/2.5/weather'
+
+    data = requests.get(url, params=query).json()
+    # pprint(data)
     weather_description = data['weather'][0]['description']
     temp_f = data['main']['temp']
     temp_feels = data['main']['feels_like']

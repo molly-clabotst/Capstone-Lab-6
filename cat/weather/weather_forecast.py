@@ -4,6 +4,7 @@ import requests
 from pprint import pprint
 import re
 
+# SET UP PROGRAM
 def main():
     city, state, countryCode = getInput()
     valid_city, valid_state, valid_countryCode = validate(city, state, countryCode)
@@ -11,6 +12,7 @@ def main():
     fiveDay = storeData(data)
     displayData(fiveDay)
 
+# GET DATA FROM USER
 def getInput():
     city = input('\nWhat is the name of the city you want a forecast for? ')
     state = input('What is the name of the state or province? Enter n/a if there is none. ')
@@ -18,6 +20,7 @@ def getInput():
 
     return city, state, countryCode
 
+# VAIDATE DATA
 def validate(city, state, countryCode):
     while True:
         if state.upper()=='N/A':
@@ -38,7 +41,7 @@ def validate(city, state, countryCode):
 
     return city, state, countryCode
 
-
+# GET DATA
 def getData(city, state, countryCode):
     key = os.environ.get('WEATHER_KEY')
     query = {'q':str(city)+','+str(state)+str(countryCode), 'units': 'imperial', 'appid':key}
@@ -49,6 +52,7 @@ def getData(city, state, countryCode):
 
     return data    
 
+# STORE DATA
 def storeData(data):
     fiveDay = {}
     
@@ -63,6 +67,9 @@ def storeData(data):
             day = re.search(r'\d{4}-\d{2}-\d{2}', da).group(0)
             fiveDay.update({ day : weatherTimes})
         wData=[]
+        # TODO I chose to local time because that is what I personally prefer to 
+        # look at as a user, also because I'm feeling ill and I just want to get 
+        # this done.
         tim = data['list'][hour]['dt_txt']
         time = re.search(r'\d{2}:\d{2}:\d{2}',tim).group(0)
         temp = data['list'][hour]['main']['temp']
@@ -74,6 +81,7 @@ def storeData(data):
 
     return fiveDay
 
+# DISPLAY DATA
 def displayData(fiveDay):
     print('\nThis is the 5 day weather forecast\n')
     # Solution for iterating through dictionary

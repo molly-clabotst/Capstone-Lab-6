@@ -12,13 +12,14 @@ def main():
     url = 'https://api.openweathermap.org/data/2.5/weather'
 
     data = requests.get(url, params=query).json()
-    # pprint(data)
+
     weather_description = data['weather'][0]['description']
     temp_f = data['main']['temp']
     temp_feels = data['main']['feels_like']
 
-    # pprint(data)
     print(f'Today in Minneapolis there are {weather_description} out.\n\nThe temperature is {temp_f:.2f}F but it feels like {temp_feels:.2f}F.\n')
 
+# def current_weather(keyy):
+    
 if __name__ == '__main__':
     main()
